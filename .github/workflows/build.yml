@@ -116,7 +116,7 @@ jobs:
           $csproj = @'
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup>
-              <TargetFramework>netstandard2.1</TargetFramework>
+              <TargetFramework>net48</TargetFramework>
               <AssemblyName>PHPVEEssentialPlugins</AssemblyName>
               <RootNamespace>ShimmysAdminTools</RootNamespace>
               <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -127,6 +127,7 @@ jobs:
               <DebugType>portable</DebugType>
             </PropertyGroup>
             <ItemGroup>
+              <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
               <PackageReference Include="RocketModFix.Rocket.API" Version="4.23.1" />
               <PackageReference Include="RocketModFix.Rocket.Core" Version="4.23.1" />
               <PackageReference Include="RocketModFix.Rocket.Unturned" Version="4.23.1" />
