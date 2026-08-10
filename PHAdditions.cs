@@ -551,7 +551,7 @@ namespace ShimmysAdminTools
 
 namespace PHPVE.Commands
 {
-    internal abstract class PHCommandBase : IRocketCommand
+    public abstract class PHCommandBase : IRocketCommand
     {
         public abstract string Name { get; }
         public abstract string Help { get; }
