@@ -45,6 +45,13 @@ jobs:
             'public partial class PluginConfig : IRocketPluginConfiguration')
           Set-Content -Path $configPath -Value $cfg -Encoding UTF8
 
+          # Current Unturned API renamed ERagdollEffect enum members to PascalCase.
+          $pointToolPath = Join-Path $projectDir 'Modules\PointToolManager.cs'
+          $pointTool = (Get-Content $pointToolPath -Raw).Replace("`r`n", "`n")
+          $pointTool = $pointTool.Replace('ERagdollEffect.GOLD', 'ERagdollEffect.Gold')
+          $pointTool = $pointTool.Replace('ERagdollEffect.NONE', 'ERagdollEffect.None')
+          Set-Content -Path $pointToolPath -Value $pointTool -Encoding UTF8
+
           # Initialize/shutdown PH systems inside the single existing Rocket plugin type.
           $mainPath = Join-Path $projectDir 'AdminToolsPlugin.cs'
           $src = (Get-Content $mainPath -Raw).Replace("`r`n", "`n")
