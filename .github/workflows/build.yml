@@ -1,10 +1,11 @@
-name: Build PH PVE Essential Plugins - Full Merge
+name: Build PH PVE Essential Plugins
 
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     paths:
+      - 'PHAdditions.cs'
       - '.github/workflows/build.yml'
 
 permissions:
@@ -13,7 +14,7 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    timeout-minutes: 35
+    timeout-minutes: 20
 
     steps:
       - name: Checkout build repository
@@ -24,253 +25,176 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Materialize PH PVE merge source
+      - name: Fetch latest ShimmysAdminTools source
         shell: pwsh
         run: |
-          @'
-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
-I7gJ/p0AAA==
-          '@ | Set-Content PHIntegration.cs.gz.b64 -Encoding ascii
-          @'
-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
-AAA=
-          '@ | Set-Content merge_patch.py.gz.b64 -Encoding ascii
-          python -c "import base64,gzip,pathlib; pathlib.Path('PHAdditions.cs').write_bytes(gzip.decompress(base64.b64decode(pathlib.Path('PHIntegration.cs.gz.b64').read_text()))); pathlib.Path('merge_patch.py').write_bytes(gzip.decompress(base64.b64decode(pathlib.Path('merge_patch.py.gz.b64').read_text())))"
-          if ($LASTEXITCODE -ne 0) { throw 'Failed to materialize PH PVE source.' }
-
-      - name: Fetch maintained source trees
-        shell: pwsh
-        run: |
-          git clone --depth 1 https://github.com/TH3AL3X/uEssentials.git uess
-          if ($LASTEXITCODE -ne 0) { throw 'Failed to clone maintained uEssentials.' }
-          git clone --depth 1 https://github.com/ShimmyMySherbet/ShimmysAdminTools.git shimmy
+          git clone --depth 1 https://github.com/ShimmyMySherbet/ShimmysAdminTools.git upstream
           if ($LASTEXITCODE -ne 0) { throw 'Failed to clone ShimmysAdminTools.' }
 
-      - name: Merge and patch PH PVE source
+      - name: Patch source for PH PVE all-in-one plugin
         shell: pwsh
         run: |
-          python merge_patch.py uess shimmy
-          if ($LASTEXITCODE -ne 0) { throw 'PH PVE merge patch failed.' }
+          $ErrorActionPreference = 'Stop'
+          $projectDir = Join-Path $PWD 'upstream\ShimmysAdminTools'
 
-      - name: Validate single Rocket plugin architecture
-        shell: pwsh
-        run: |
-          python -c "from pathlib import Path; import re; root=Path('uess'); hits=[]; [(hits.append(str(p)) if m else None) for p in root.rglob('*.cs') if 'obj' not in p.parts and 'bin' not in p.parts for m in [re.search(r'class\s+\w+\s*:\s*RocketPlugin(?:<[^>]+>)?', p.read_text(encoding='utf-8-sig',errors='ignore'))]]; print('RocketPlugin implementations:', hits); assert len(hits)==1, f'Expected exactly 1 RocketPlugin implementation, found {len(hits)}'"
+          # Make the existing configuration extensible by PHAdditions.cs.
+          $configPath = Join-Path $projectDir 'Models\PluginConfig.cs'
+          $cfg = (Get-Content $configPath -Raw).Replace("`r`n", "`n")
+          $cfg = $cfg.Replace(
+            'public class PluginConfig : IRocketPluginConfiguration',
+            'public partial class PluginConfig : IRocketPluginConfiguration')
+          Set-Content -Path $configPath -Value $cfg -Encoding UTF8
+
+          # Initialize/shutdown PH systems inside the single existing Rocket plugin type.
+          $mainPath = Join-Path $projectDir 'AdminToolsPlugin.cs'
+          $src = (Get-Content $mainPath -Raw).Replace("`r`n", "`n")
+          if (-not $src.Contains('PHCore.Initialize(this);')) {
+            $src = $src.Replace(
+              '            Config = Configuration.Instance;',
+              "            Config = Configuration.Instance;`n            PHCore.Initialize(this);")
+          }
+          if (-not $src.Contains('PHCore.Shutdown();')) {
+            $src = $src.Replace(
+              "        public override void UnloadPlugin(PluginState state = PluginState.Unloaded)`n        {",
+              "        public override void UnloadPlugin(PluginState state = PluginState.Unloaded)`n        {`n            PHCore.Shutdown();")
+          }
+
+          # Rebrand console messages and disable the old plugin updater check.
+          $src = $src.Replace(
+            '            Logger.Log($"Loading ShimmysAdminTools v{UpdaterCore.CurrentVersion} by ShimmyMySherbet");',
+            '            Logger.Log("Loading PH PVE Essential Plugins");')
+          $src = $src.Replace('            Logger.Log("Checking for updates...");', '            // PH PVE build: upstream update check intentionally disabled.')
+          $src = $src.Replace('            UpdaterCore.Init();', '            // UpdaterCore.Init();')
+          $src = $src.Replace('            Logger.Log("ShimmysAdminTools loaded.");', '            Logger.Log("PH PVE Essential Plugins loaded.");')
+
+          # Add editable PH PVE messages to Rocket's generated translation XML.
+          $translationNeedle = "        public override TranslationList DefaultTranslations => new TranslationList()`n        {`n"
+          $translationEntries = @'
+            { "PH_NoPermission", "You do not have permission to use this." },
+            { "PH_EagleEye", "{0} has activated the Eagle Eye Surveillance System" },
+            { "PH_EditorOwnBarricades", "You can only move your own barricades!" },
+            { "PH_EditorOwnStructures", "You can only move your own structures!" },
+            { "PH_Back_NoLocation", "No previous location is available." },
+            { "PH_Back_Cooldown", "You must wait {0} before using /back again." },
+            { "PH_Back_Returned", "Returned to your previous location." },
+            { "PH_Tpa_PlayerNotFound", "Player not found." },
+            { "PH_Tpa_Sent", "Teleport request sent to {0}." },
+            { "PH_Tpa_Received", "{0} wants to teleport to you. Use /tpaccept or /tpdeny." },
+            { "PH_Tpa_NoPending", "You have no pending teleport request." },
+            { "PH_Tpa_Expired", "That teleport request has expired." },
+            { "PH_Tpa_Denied_Target", "Denied {0}'s teleport request." },
+            { "PH_Tpa_Denied_Requester", "{0} denied your teleport request." },
+            { "PH_Tpa_Accepted_Target", "Accepted {0}'s teleport request." },
+            { "PH_Tpa_Accepted_Requester", "{0} accepted your teleport request." },
+            { "PH_PlayerNotFound", "Player not found." },
+            { "PH_Tell_PlayerNotFound", "Player not found." },
+            { "PH_Tell_To", "To {0}: {1}" },
+            { "PH_Tell_From", "From {0}: {1}" },
+            { "PH_Reply_NoTarget", "There is nobody available to reply to." },
+            { "PH_Freeze_Frozen", "Froze {0}." },
+            { "PH_Freeze_YouFrozen", "You have been frozen." },
+            { "PH_Freeze_Unfrozen", "Unfroze {0}." },
+            { "PH_Freeze_YouUnfrozen", "You have been unfrozen." },
+            { "PH_Repair_Done", "All inventory items repaired." },
+            { "PH_Sudo_Done", "Executed command as {0}." },
+            { "PH_Sudo_Failed", "Could not execute the command as {0}." },
+            { "PH_Cuff_Done", "Cuffed {0}." },
+            { "PH_Cuff_Target", "You have been cuffed." },
+            { "PH_Uncuff_Done", "Uncuffed {0}." },
+            { "PH_Uncuff_Target", "You have been uncuffed." },
+          '@
+          if (-not $src.Contains('{ "PH_NoPermission"')) {
+            if (-not $src.Contains($translationNeedle)) { throw 'Could not find Shimmys translation initializer.' }
+            $src = $src.Replace($translationNeedle, $translationNeedle + $translationEntries.Replace("`r`n", "`n"))
+          }
+          Set-Content -Path $mainPath -Value $src -Encoding UTF8
+
+          # Copy PH PVE additions into the same assembly.
+          Copy-Item (Join-Path $PWD 'PHAdditions.cs') (Join-Path $projectDir 'PHAdditions.cs') -Force
+
+          # SDK-style project compiled against the current RocketModFix/Unturned redists.
+          $csproj = @'
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup>
+              <TargetFramework>netstandard2.1</TargetFramework>
+              <AssemblyName>PHPVEEssentialPlugins</AssemblyName>
+              <RootNamespace>ShimmysAdminTools</RootNamespace>
+              <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+              <LangVersion>latest</LangVersion>
+              <Nullable>disable</Nullable>
+              <ImplicitUsings>disable</ImplicitUsings>
+              <Deterministic>true</Deterministic>
+              <DebugType>portable</DebugType>
+            </PropertyGroup>
+            <ItemGroup>
+              <PackageReference Include="RocketModFix.Rocket.API" Version="4.23.1" />
+              <PackageReference Include="RocketModFix.Rocket.Core" Version="4.23.1" />
+              <PackageReference Include="RocketModFix.Rocket.Unturned" Version="4.23.1" />
+              <PackageReference Include="RocketModFix.UnityEngine.Redist" Version="2022.3.62.3" />
+              <PackageReference Include="RocketModFix.Unturned.Redist.Client" Version="3.26.3.4" />
+            </ItemGroup>
+          </Project>
+          '@
+          Set-Content -Path (Join-Path $projectDir 'PHPVEEssentialPlugins.Build.csproj') -Value $csproj -Encoding UTF8
 
       - name: Restore
         shell: pwsh
-        working-directory: uess
+        working-directory: upstream/ShimmysAdminTools
         run: dotnet restore PHPVEEssentialPlugins.Build.csproj
 
       - name: Compile PHPVEEssentialPlugins.dll
         shell: pwsh
-        working-directory: uess
+        working-directory: upstream/ShimmysAdminTools
         run: dotnet build PHPVEEssentialPlugins.Build.csproj --configuration Release --no-restore
 
-      - name: Stage deployable package
+      - name: Stage plugin package
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Force -Path artifact | Out-Null
-          $dll = Get-ChildItem -Path uess\bin\Release -Recurse -Filter PHPVEEssentialPlugins.dll | Select-Object -First 1
+          $dll = Get-ChildItem -Path upstream\ShimmysAdminTools\bin\Release -Recurse -Filter PHPVEEssentialPlugins.dll | Select-Object -First 1
           if ($null -eq $dll) { throw 'PHPVEEssentialPlugins.dll was not produced.' }
           Copy-Item $dll.FullName artifact\PHPVEEssentialPlugins.dll
-
           @'
-          PH PVE ESSENTIAL PLUGINS - DEPLOYMENT
-
-          Remove these old plugin DLLs from Rocket/Plugins when deploying this merged build:
-          - uEssentials.dll
-          - ShimmysAdminTools.dll
-          - RocketTools.dll
-          - RFRocketLibrary*.dll
-          - CuffPlugin.dll
-          - AppleAdminControl.dll
-
-          KEEP AdvancedGodVanish.dll separate.
-
-          Upload PHPVEEssentialPlugins.dll to Rocket/Plugins/ and restart.
-          Rocket will generate PHPVEEssentialPlugins.configuration.xml and PHPVEEssentialPlugins.en.translation.xml.
-          uEssentials data lives under PHPVEEssentialPlugins/Essentials and legacy data can be migrated automatically.
-
-          /back cooldown is internal: 3600 seconds after SUCCESS only. Keep Rocket XML permission Cooldown=0.
-          '@ | Set-Content artifact\DEPLOYMENT.txt -Encoding UTF8
-
-          @'
-          PH-SPECIFIC PERMISSIONS
-
-          DEFAULT / ALL PLAYERS:
+          PH PVE Essential Plugins - permission additions
+          
+          DEFAULT (all players):
           <Permission Cooldown="0">phpve.tpa.respond</Permission>
-
+          
           CEO:
           <Permission Cooldown="0">phpve.tpa.send</Permission>
-          <Permission Cooldown="0">phpve.command.back</Permission>
           <Permission Cooldown="0">phpve.eagleeye.announce</Permission>
           <Permission Cooldown="0">admin.freecam</Permission>
           <Permission Cooldown="0">admin.editor</Permission>
           <Permission Cooldown="0">admin.spectate</Permission>
-
+          <Permission Cooldown="0">phpve.command.back</Permission>
+          
           ELITE:
           <Permission Cooldown="0">phpve.eagleeye.announce</Permission>
           <Permission Cooldown="0">admin.freecam</Permission>
           <Permission Cooldown="0">admin.editor</Permission>
           <Permission Cooldown="0">admin.spectate</Permission>
-
+          
           MODERS:
           <Permission Cooldown="0">admin.freecam</Permission>
           <Permission Cooldown="0">admin.editor</Permission>
           <Permission Cooldown="0">admin.spectate</Permission>
-
+          
           STAFF / cleanup:
           <Permission Cooldown="0">admin.freecam</Permission>
           <Permission Cooldown="0">admin.editor</Permission>
           <Permission Cooldown="0">admin.spectate</Permission>
           <Permission Cooldown="0">admin.editor.otherobjects</Permission>
+          
+          /back cooldown is enforced internally by the plugin at 3600 seconds after a SUCCESSFUL /back.
+          Do not put Rocket Cooldown="3600" on phpve.command.back.
+          '@ | Set-Content artifact\PHPVE-Permissions.txt -Encoding UTF8
+          Copy-Item PHAdditions.cs artifact\PHAdditions.source.cs
 
-          CUFF:
-          <Permission Cooldown="0">phpve.command.cuff</Permission>
-          <Permission Cooldown="0">phpve.command.uncuff</Permission>
-          Legacy playerCuff/playerUncuff are also accepted.
-
-          ROCKET PERMISSION ADMIN:
-          <Permission Cooldown="0">rocketpermission</Permission>
-          '@ | Set-Content artifact\PH-SPECIFIC-PERMISSIONS.txt -Encoding UTF8
-
-          Copy-Item PHAdditions.cs artifact\PHIntegration.source.cs
-          Copy-Item merge_patch.py artifact\merge_patch.py
-          Copy-Item uess\LICENSE artifact\LICENSE-uEssentials-GPLv2 -ErrorAction SilentlyContinue
-
-      - name: Upload merged plugin
+      - name: Upload compiled plugin
         uses: actions/upload-artifact@v4
         with:
-          name: PH-PVE-Essential-Plugins-Merged
+          name: PH-PVE-Essential-Plugins
           path: artifact/*
           if-no-files-found: error
           retention-days: 30
