@@ -1,0 +1,91 @@
+name: Build PH PVE Survival HUD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build-survivalhud.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Materialize Survival HUD source
+        shell: pwsh
+        run: |
+          $b64 = @'
+          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
+IBSG7/0VTe+r1I+lJrVm0znNtnjRxV7TcrAkDBYKav/9IFPbmeoNFzzvA4dziOenb+4dQFVMipkf9pHvgSgkYWI/842mQeTPk16cGnVgB8zXhiykoGxvFNZW
+SXqeF79SCoV+M4wkNHrKcURHQRRRFIynKAzyCbKn5IjCFAHkMIwHLaHx36FORkM0Di/cbTi8ZgR2WDDO8Qej8AnalptoZSAedLMbK9VYm2pTSNGhteHFy0rG
+YQmYtOLNnkstWfXDcb1jylTP1Ua4el07/vL3qDPTUh63p3oPYit4nZUgXoDL48pwfrYfJdwJC8U0K+wsAHNdfpUKqlJykgwn8eAec16GlbBjXUlJ/kudoGVk
+2Ha1U7khLef66IZO0NXroM7dCFs95uf2LcEuKdjJkCoJ++7aB4GebdzdT/oLUEsBAhQDFAAAAAgAcxQMXV9pN8JaAQAAcAMAACgAAAAAAAAAAAAAAIABAAAA
+AFBIUFZFU3Vydml2YWxIVUQvUEhQVkVTdXJ2aXZhbEhVRC5jc3Byb2pQSwECFAMUAAAACABzFAxd1MYimK0LAACkNgAAKAAAAAAAAAAAAAAAgAGgAQAAUEhQ
+VkVTdXJ2aXZhbEhVRC9zcmMvUEhQVkVTdXJ2aXZhbEhVRC5jc1BLAQIUAxQAAAAIAHMUDF2DeT1nQAEAAOcCAABaAAAAAAAAAAAAAACAAZMNAABQSFBWRVN1
+cnZpdmFsSFVEL2RlcGxveS9Sb2NrZXQvUGx1Z2lucy9QSFBWRVN1cnZpdmFsSFVEL1BIUFZFU3Vydml2YWxIVUQuY29uZmlndXJhdGlvbi54bWxQSwUGAAAA
+AAMAAwA0AQAASw8AAAAA
+          '@
+          [IO.File]::WriteAllBytes('hud.zip', [Convert]::FromBase64String(($b64 -replace '\s','')))
+          Expand-Archive -Path hud.zip -DestinationPath buildsrc -Force
+      - name: Restore
+        run: dotnet restore buildsrc/PHPVESurvivalHUD/PHPVESurvivalHUD.csproj
+      - name: Build
+        run: dotnet build buildsrc/PHPVESurvivalHUD/PHPVESurvivalHUD.csproj -c Release --no-restore -o artifact
+      - name: Stage deploy package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path package\Rocket\Plugins\PHPVESurvivalHUD | Out-Null
+          Copy-Item artifact\PHPVESurvivalHUD.dll package\Rocket\Plugins\PHPVESurvivalHUD.dll
+          Copy-Item buildsrc\PHPVESurvivalHUD\deploy\Rocket\Plugins\PHPVESurvivalHUD\PHPVESurvivalHUD.configuration.xml package\Rocket\Plugins\PHPVESurvivalHUD\PHPVESurvivalHUD.configuration.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PHPVESurvivalHUD
+          path: package
+          retention-days: 30
