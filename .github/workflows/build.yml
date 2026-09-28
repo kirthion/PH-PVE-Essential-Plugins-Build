@@ -1,0 +1,411 @@
+name: Build PH PVE Essential Plugins - Full Merge v5.4 Explosive + Bed Editor Lock
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout build repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Materialize PH PVE merge source
+        shell: pwsh
+        run: |
+          @'
+          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
+          '@ | Set-Content PHIntegration.cs.gz.b64 -Encoding ascii
+          @'
+          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
+          '@ | Set-Content merge_patch.py.gz.b64 -Encoding ascii
+          python -c "import base64,gzip,pathlib; pathlib.Path('PHAdditions.cs').write_bytes(gzip.decompress(base64.b64decode(pathlib.Path('PHIntegration.cs.gz.b64').read_text()))); pathlib.Path('merge_patch.py').write_bytes(gzip.decompress(base64.b64decode(pathlib.Path('merge_patch.py.gz.b64').read_text())))"
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to materialize PH PVE source.' }
+
+      - name: Validate explosive and bed editor movement lock
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $src = Get-Content PHAdditions.cs -Raw
+          $required = @(
+            'IsEditorMovementHardBlocked',
+            'asset.build == EBuild.BED',
+            'drop.interactable is InteractableBed',
+            'asset is ItemChargeAsset',
+            'asset.build == EBuild.CHARGE',
+            'trapAsset.isExplosive',
+            'PH_EditorExplosiveLocked'
+          )
+          foreach ($term in $required) {
+            if (-not $src.Contains($term)) { throw "Missing explosive editor lock guard: $term" }
+          }
+          Write-Host 'Explosive/charge + bed Admin Editor movement lock validated.'
+
+      - name: Fetch pinned source trees
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $uEssentialsCommit = '7865c393a4563558d1a02a3cb2384885af4217e6'
+          $shimmysCommit = '85a142f5742626e62c60f1717d3c76ef3b54c040'
+
+          git init uess
+          git -C uess remote add origin https://github.com/TH3AL3X/uEssentials.git
+          git -C uess fetch --depth 1 origin $uEssentialsCommit
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to fetch pinned uEssentials source.' }
+          git -C uess checkout --detach FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to checkout pinned uEssentials source.' }
+
+          git init shimmy
+          git -C shimmy remote add origin https://github.com/ShimmyMySherbet/ShimmysAdminTools.git
+          git -C shimmy fetch --depth 1 origin $shimmysCommit
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to fetch pinned ShimmysAdminTools source.' }
+          git -C shimmy checkout --detach FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to checkout pinned ShimmysAdminTools source.' }
+
+          $actualU = (git -C uess rev-parse HEAD).Trim()
+          $actualS = (git -C shimmy rev-parse HEAD).Trim()
+          if ($actualU -ne $uEssentialsCommit) { throw "uEssentials commit mismatch: $actualU" }
+          if ($actualS -ne $shimmysCommit) { throw "ShimmysAdminTools commit mismatch: $actualS" }
+
+          Write-Host "Pinned uEssentials: $actualU"
+          Write-Host "Pinned ShimmysAdminTools: $actualS"
+
+      - name: Merge and patch PH PVE source
+        shell: pwsh
+        run: |
+          python merge_patch.py uess shimmy
+          if ($LASTEXITCODE -ne 0) { throw 'PH PVE merge patch failed.' }
+
+      - name: Validate current Unturned enum compatibility
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $legacy = Get-ChildItem -Path uess -Recurse -Filter *.cs |
+            Select-String -SimpleMatch 'ERagdollEffect.NONE','ERagdollEffect.GOLD'
+          if ($legacy) {
+            $legacy | ForEach-Object { Write-Host $_.Path ':' $_.LineNumber ':' $_.Line }
+            throw 'Legacy ERagdollEffect enum names remain after compatibility patch.'
+          }
+
+          $misc = Get-Content 'uess\src\Commands\MiscCommands.cs' -Raw
+          if (-not $misc.Contains('ERagdollEffect.None')) {
+            throw 'MiscCommands.cs was not updated to ERagdollEffect.None.'
+          }
+
+          Write-Host 'Current Unturned ERagdollEffect compatibility validated.'
+
+      - name: Validate PluginState compatibility
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $path = 'uess\ShimmysMerged\PHSubsystemCompat.cs'
+          if (-not (Test-Path $path)) { throw "Missing compatibility source: $path" }
+
+          $src = Get-Content $path -Raw
+          if (-not $src.Contains('using Rocket.API;')) {
+            throw 'PHSubsystemCompat.cs is missing using Rocket.API; required for PluginState.'
+          }
+          if (-not $src.Contains('public PluginState State')) {
+            throw 'PHSubsystemCompat.cs is missing the PluginState compatibility property.'
+          }
+
+          Write-Host 'Rocket.API PluginState compatibility validated.'
+
+      - name: Validate PointTool hardening
+        shell: pwsh
+        run: |
+          python -c "from pathlib import Path; checks={'uess/ShimmysMerged/Commands/PointToolCommand.cs':['PointTool failed to initialize your player session','PlayerSessionStore.Store == null'],'uess/ShimmysMerged/Modules/PointToolManager.cs':['Gesture ignored because session initialization failed','PlayerSessionStore.Store == null'],'uess/ShimmysMerged/AdminToolsPlugin.cs':['PlayerSessionStore.TryRegisterPlayer(player);']}; [( (_ for _ in ()).throw(AssertionError(f'Missing {term} in {path}')) if term not in Path(path).read_text(encoding='utf-8-sig') else None) for path,terms in checks.items() for term in terms]; print('PointTool hardening validated')"
+
+      - name: Validate single Rocket plugin architecture
+        shell: pwsh
+        run: |
+          python -c "from pathlib import Path; import re; root=Path('uess'); hits=[]; [(hits.append(str(p)) if m else None) for p in root.rglob('*.cs') if 'obj' not in p.parts and 'bin' not in p.parts for m in [re.search(r'class\s+\w+\s*:\s*RocketPlugin(?:<[^>]+>)?', p.read_text(encoding='utf-8-sig',errors='ignore'))]]; print('RocketPlugin implementations:', hits); assert len(hits)==1, f'Expected exactly 1 RocketPlugin implementation, found {len(hits)}'"
+
+      - name: Precompile compatibility audit
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $allSource = Get-ChildItem -Path uess -Recurse -Filter *.cs |
+            Where-Object { $_.FullName -notmatch '\\(bin|obj)\\' }
+
+          $forbidden = @(
+            'ERagdollEffect.NONE',
+            'ERagdollEffect.GOLD'
+          )
+
+          foreach ($term in $forbidden) {
+            $hits = $allSource | Select-String -SimpleMatch $term
+            if ($hits) {
+              $hits | ForEach-Object { Write-Host "$($_.Path):$($_.LineNumber): $($_.Line)" }
+              throw "Legacy API token remains before compile: $term"
+            }
+          }
+
+          $compat = Get-Content 'uess\ShimmysMerged\PHSubsystemCompat.cs' -Raw
+          if (-not $compat.Contains('using Rocket.API;')) {
+            throw 'PluginState namespace compatibility is missing.'
+          }
+
+          $ph = Get-Content 'uess\PHIntegration.cs' -Raw
+          $requiredLocks = @(
+            'asset.build == EBuild.BED',
+            'drop.interactable is InteractableBed',
+            'asset is ItemChargeAsset',
+            'asset.build == EBuild.CHARGE',
+            'trapAsset.isExplosive'
+          )
+          foreach ($term in $requiredLocks) {
+            if (-not $ph.Contains($term)) {
+              throw "Admin Editor hard-lock source missing: $term"
+            }
+          }
+
+          Write-Host 'Precompile compatibility audit passed.'
+
+      - name: Restore
+        shell: pwsh
+        working-directory: uess
+        run: dotnet restore PHPVEEssentialPlugins.Build.csproj
+
+      - name: Compile PHPVEEssentialPlugins.dll
+        shell: pwsh
+        working-directory: uess
+        run: dotnet build PHPVEEssentialPlugins.Build.csproj --configuration Release --no-restore
+
+      - name: Stage deployable package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path artifact | Out-Null
+          $dll = Get-ChildItem -Path uess\bin\Release -Recurse -Filter PHPVEEssentialPlugins.dll | Select-Object -First 1
+          if ($null -eq $dll) { throw 'PHPVEEssentialPlugins.dll was not produced.' }
+          Copy-Item $dll.FullName artifact\PHPVEEssentialPlugins.dll
+
+          @'
+          PH PVE ESSENTIAL PLUGINS - DEPLOYMENT
+
+          Remove these old plugin DLLs from Rocket/Plugins when deploying this merged build:
+          - uEssentials.dll
+          - ShimmysAdminTools.dll
+          - RocketTools.dll
+          - RFRocketLibrary*.dll
+          - CuffPlugin.dll
+          - AppleAdminControl.dll
+
+          KEEP AdvancedGodVanish.dll separate.
+
+          Upload PHPVEEssentialPlugins.dll to Rocket/Plugins/ and restart.
+          Rocket will generate PHPVEEssentialPlugins.configuration.xml and PHPVEEssentialPlugins.en.translation.xml.
+          uEssentials data lives under PHPVEEssentialPlugins/Essentials and legacy data can be migrated automatically.
+
+          /back cooldown is internal: 3600 seconds after SUCCESS only. Keep Rocket XML permission Cooldown=0.
+          '@ | Set-Content artifact\DEPLOYMENT.txt -Encoding UTF8
+
+          @'
+          PH-SPECIFIC PERMISSIONS
+
+          DEFAULT / ALL PLAYERS:
+          <Permission Cooldown="0">phpve.tpa.respond</Permission>
+
+          CEO:
+          <Permission Cooldown="0">phpve.tpa.send</Permission>
+          <Permission Cooldown="0">phpve.command.back</Permission>
+          <Permission Cooldown="0">phpve.eagleeye.announce</Permission>
+          <Permission Cooldown="0">admin.freecam</Permission>
+          <Permission Cooldown="0">admin.editor</Permission>
+          <Permission Cooldown="0">admin.spectate</Permission>
+
+          ELITE:
+          <Permission Cooldown="0">phpve.eagleeye.announce</Permission>
+          <Permission Cooldown="0">admin.freecam</Permission>
+          <Permission Cooldown="0">admin.editor</Permission>
+          <Permission Cooldown="0">admin.spectate</Permission>
+
+          MODERS:
+          <Permission Cooldown="0">admin.freecam</Permission>
+          <Permission Cooldown="0">admin.editor</Permission>
+          <Permission Cooldown="0">admin.spectate</Permission>
+
+          STAFF / cleanup:
+          <Permission Cooldown="0">admin.freecam</Permission>
+          <Permission Cooldown="0">admin.editor</Permission>
+          <Permission Cooldown="0">admin.spectate</Permission>
+          <Permission Cooldown="0">admin.editor.otherobjects</Permission>
+
+          CUFF:
+          <Permission Cooldown="0">phpve.command.cuff</Permission>
+          <Permission Cooldown="0">phpve.command.uncuff</Permission>
+          Legacy playerCuff/playerUncuff are also accepted.
+
+          ROCKET PERMISSION ADMIN:
+          <Permission Cooldown="0">rocketpermission</Permission>
+          '@ | Set-Content artifact\PH-SPECIFIC-PERMISSIONS.txt -Encoding UTF8
+
+          Copy-Item PHAdditions.cs artifact\PHIntegration.source.cs
+          Copy-Item merge_patch.py artifact\merge_patch.py
+          Copy-Item uess\LICENSE artifact\LICENSE-uEssentials-GPLv2 -ErrorAction SilentlyContinue
+
+      - name: Upload merged plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: PH-PVE-Essential-Plugins-Merged
+          path: artifact/*
+          if-no-files-found: error
+          retention-days: 30
